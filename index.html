@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اليد الروبوتية - لغة الإشارة</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>🤖 اليد الروبوتية - لغة الإشارة</h1>
+            <p class="subtitle">مشروع تحويل النص إلى لغة الإشارة الأمريكية (ASL)</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        
+        <!-- Connection Status -->
+        <section class="status-section">
+            <div class="status-card">
+                <div class="status-indicator" id="statusIndicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">غير متصل</span>
+                </div>
+                <button class="btn btn-primary" id="connectBtn">الاتصال بالأردوينو</button>
+            </div>
+        </section>
+
+        <!-- Input Section -->
+        <section class="input-section">
+            <div class="card">
+                <h2>📝 أدخل النص</h2>
+                
+                <!-- Letter Input -->
+                <div class="input-group">
+                    <label for="letterInput">حرف واحد (A-Z):</label>
+                    <input 
+                        type="text" 
+                        id="letterInput" 
+                        maxlength="1" 
+                        placeholder="اكتب حرف واحد..."
+                        class="input-field"
+                    >
+                    <button class="btn btn-send" id="sendLetterBtn">
+                        إرسال الحرف
+                    </button>
+                </div>
+
+                <!-- Word Input -->
+                <div class="input-group">
+                    <label for="wordInput">كلمة كاملة:</label>
+                    <input 
+                        type="text" 
+                        id="wordInput" 
+                        placeholder="اكتب كلمة..."
+                        class="input-field"
+                    >
+                    <button class="btn btn-send" id="sendWordBtn">
+                        تهجئة الكلمة
+                    </button>
+                </div>
+
+                <!-- Manual Control -->
+                <div class="input-group">
+                    <label for="manualInput">التحكم اليدوي (servo1,servo2,servo3,servo4,servo5):</label>
+                    <input 
+                        type="text" 
+                        id="manualInput" 
+                        placeholder="مثال: 180,90,0,45,90"
+                        class="input-field"
+                    >
+                    <button class="btn btn-send" id="sendManualBtn">
+                        إرسال أمر مخصص
+                    </button>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h3>⚡ أوامر سريعة:</h3>
+                    <div class="btn-grid">
+                        <button class="btn btn-secondary" onclick="sendQuickCommand('0,0,0,0,90')">
+                            ✋ يد مفتوحة
+                        </button>
+                        <button class="btn btn-secondary" onclick="sendQuickCommand('180,180,180,180,90')">
+                            ✊ قبضة
+                        </button>
+                        <button class="btn btn-secondary" onclick="sendQuickCommand('A')">
+                            🅰️ حرف A
+                        </button>
+                        <button class="btn btn-secondary" onclick="sendQuickCommand('HELLO')">
+                            👋 HELLO
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Output Section -->
+        <section class="output-section">
+            <div class="card">
+                <h2>📡 سجل الرسائل</h2>
+                <div class="log-container" id="logContainer">
+                    <p class="log-empty">لا توجد رسائل بعد...</p>
+                </div>
+                <button class="btn btn-clear" id="clearLogBtn">
+                    🗑️ مسح السجل
+                </button>
+            </div>
+        </section>
+
+        <!-- Info Section -->
+        <section class="info-section">
+            <div class="card">
+                <h2>ℹ️ معلومات المشروع</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h3>🎯 الهدف</h3>
+                        <p>تحويل النص المكتوب إلى لغة الإشارة الأمريكية (ASL) باستخدام يد روبوتية.</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>🔧 المكونات</h3>
+                        <ul>
+                            <li>Arduino UNO</li>
+                            <li>5 محركات سيرفو</li>
+                            <li>بطارية ليثيوم 7.4V</li>
+                            <li>يد روبوتية مطبوعة 3D</li>
+                        </ul>
+                    </div>
+                    <div class="info-item">
+                        <h3>📊 توزيع السيرفوهات</h3>
+                        <ul>
+                            <li>Servo 1 (Pin 3): الإبهام</li>
+                            <li>Servo 2 (Pin 5): الخنصر + البنصر</li>
+                            <li>Servo 3 (Pin 6): الوسطى</li>
+                            <li>Servo 4 (Pin 9): السبابة</li>
+                            <li>Servo 5 (Pin 10): عظمة الإبهام</li>
+                        </ul>
+                    </div>
+                    <div class="info-item">
+                        <h3>💻 التقنيات المستخدمة</h3>
+                        <ul>
+                            <li>HTML5 / CSS3</li>
+                            <li>JavaScript (Web Serial API)</li>
+                            <li>Arduino C++</li>
+                            <li>ASL (لغة الإشارة الأمريكية)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ASL Reference -->
+        <section class="reference-section">
+            <div class="card">
+                <h2>🔤 مرجع الحروف المتاحة</h2>
+                <div class="alphabet-grid">
+                    <span class="letter-badge">A</span>
+                    <span class="letter-badge">B</span>
+                    <span class="letter-badge">C</span>
+                    <span class="letter-badge">D</span>
+                    <span class="letter-badge">E</span>
+                    <span class="letter-badge">F</span>
+                    <span class="letter-badge">G</span>
+                    <span class="letter-badge">H</span>
+                    <span class="letter-badge">I</span>
+                    <span class="letter-badge">K</span>
+                    <span class="letter-badge">L</span>
+                    <span class="letter-badge">M</span>
+                    <span class="letter-badge">N</span>
+                    <span class="letter-badge">O</span>
+                    <span class="letter-badge">R</span>
+                    <span class="letter-badge">S</span>
+                    <span class="letter-badge">T</span>
+                    <span class="letter-badge">U</span>
+                    <span class="letter-badge">V</span>
+                    <span class="letter-badge">W</span>
+                    <span class="letter-badge">X</span>
+                    <span class="letter-badge">Y</span>
+                    <span class="letter-badge">Z</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© جميع الحقوق محفوظة للطالب مرتضى الحجي من مدارس الأنجال الأهلية | 2025</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
