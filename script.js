@@ -307,6 +307,14 @@ if (!('serial' in navigator)) {
 // ==========================================
 
 window.addEventListener('load', () => {
+    // إزالة شاشة التحميل بعد 3.5 ثانية
+    setTimeout(() => {
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) {
+            loadingScreen.style.display = 'none';
+        }
+    }, 3500);
+    
     if ('serial' in navigator) {
         addLog('👋 اضغط "الاتصال بالأردوينو" للبدء', 'info');
     }
