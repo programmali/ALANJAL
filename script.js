@@ -53,7 +53,7 @@ async function connectToArduino() {
         
         isConnected = true;
         updateConnectionStatus(true);
-        addLog('✅ تم الاتصال بالأردوينو بنجاح!', 'success');
+        addLog('✅ متصل', 'success');
         
         // قراءة البيانات من الأردوينو
         readFromArduino();
@@ -81,7 +81,7 @@ async function disconnectFromArduino() {
         
         isConnected = false;
         updateConnectionStatus(false);
-        addLog('⚠️ تم قطع الاتصال بالأردوينو', 'error');
+        addLog('⚠️ غير متصل', 'error');
         
     } catch (error) {
         console.error('خطأ في قطع الاتصال:', error);
@@ -99,9 +99,7 @@ async function readFromArduino() {
             if (done) {
                 break;
             }
-            if (value) {
-                addLog('📥 من الأردوينو: ' + value.trim(), 'success');
-            }
+            // لا نعرض ردود الأردوينو في السجل
         }
     } catch (error) {
         console.error('خطأ في القراءة:', error);
@@ -120,10 +118,11 @@ async function sendToArduino(data) {
     
     try {
         await writer.write(data + '\n');
-        addLog('📤 تم الإرسال: ' + data, 'success');
+        // عرض فقط الحروف والكلمات المرسلة
+        addLog('📤 ' + data, 'success');
     } catch (error) {
         console.error('خطأ في الإرسال:', error);
-        addLog('❌ فشل الإرسال: ' + error.message, 'error');
+        addLog('❌ فشل الإرسال', 'error');
     }
 }
 
@@ -291,7 +290,6 @@ function addLog(message, type = 'info') {
 
 clearLogBtn.addEventListener('click', () => {
     logContainer.innerHTML = '<p class="log-empty">لا توجد رسائل بعد...</p>';
-    addLog('🗑️ تم مسح السجل', 'info');
 });
 
 // ==========================================
@@ -299,9 +297,9 @@ clearLogBtn.addEventListener('click', () => {
 // ==========================================
 
 if (!('serial' in navigator)) {
-    addLog('❌ المتصفح لا يدعم Web Serial API! استخدم Chrome أو Edge', 'error');
     connectBtn.disabled = true;
     connectBtn.textContent = 'المتصفح غير مدعوم';
+    addLog('❌ استخدم Chrome أو Edge', 'error');
 }
 
 // ==========================================
@@ -309,5 +307,7 @@ if (!('serial' in navigator)) {
 // ==========================================
 
 window.addEventListener('load', () => {
-    addLog('👋 مرحباً! اضغط على "الاتصال بالأردوينو" للبدء', 'info');
+    if ('serial' in navigator) {
+        addLog('👋 اضغط "الاتصال بالأردوينو" للبدء', 'info');
+    }
 });
